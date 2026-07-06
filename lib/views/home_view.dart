@@ -1,97 +1,91 @@
 import 'package:flutter/material.dart';
-import '../models/channel.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
 
   @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  // قائمة القنوات التجريبية مقسمة حسب الفئة (زي ياسين تيفي)
-  final List<Channel> channels = [
-    // قسم قنوات ليبيا
-    Channel(name: 'الرياضية الليبية', logo: 'https://via.placeholder.com/150', url: 'https://example.com/libya_sports.m3u8', category: 'قنوات ليبيا 🇱🇾'),
-    Channel(name: 'ليبيا الأحرار', logo: 'https://via.placeholder.com/150', url: 'https://example.com/libya_alahrar.m3u8', category: 'قنوات ليبيا 🇱🇾'),
-    Channel(name: 'قناة سلام', logo: 'https://via.placeholder.com/150', url: 'https://example.com/salam.m3u8', category: 'قنوات ليبيا 🇱🇾'),
-    
-    // قسم قنوات الرياضة العالمية
-    Channel(name: 'beIN SPORTS 1', logo: 'https://via.placeholder.com/150', url: 'https://example.com/bein1.m3u8', category: 'بين سبورت ⚽'),
-    Channel(name: 'beIN SPORTS 2', logo: 'https://via.placeholder.com/150', url: 'https://example.com/bein2.m3u8', category: 'بين سبورت ⚽'),
-    Channel(name: 'SSC SPORTS 1', logo: 'https://via.placeholder.com/150', url: 'https://example.com/ssc1.m3u8', category: 'قنوات SSC السعودية 🇸🇦'),
-  ];
-
-  @override
   Widget build(BuildContext context) {
-    // الحصول على الفئات الفريدة (ليبيا، بين سبورت، إلخ)
-    final categories = channels.map((c) => c.category).toSet().toList();
+    // قائمة الأقسام الرئيسية بنفس ستايل ياسين تيفي
+    final List<Map<String, dynamic>> categories = [
+      {'title': 'beIN SPORTS MAX', 'color': Colors.white},
+      {'title': 'beIN SPORTS (1080P)', 'color': Colors.white},
+      {'title': 'beIN SPORTS (720P)', 'color': Colors.white},
+      {'title': 'beIN SPORTS (360P)', 'color': Colors.white},
+      {'title': 'beIN ENTERTAINMENT', 'color': Colors.white},
+      {'title': 'ARABIC CHANNELS (القنوات العربية)', 'color': Colors.white},
+      {'title': 'MBC CHANNELS', 'color': Colors.white},
+      {'title': 'KIDS CHANNELS (قنوات الأطفال)', 'color': Colors.white},
+    ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: const Color(0xFFD32F2F), // الخلفية الحمراء الخاصة بالتطبيق
       appBar: AppBar(
-        title: const Text('JOLIBY TV - الرئيسية', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-        backgroundColor: const Color(0xFF1E1E1E),
+        title: const Text(
+          'Jo Liby TV', 
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)
+        ),
+        backgroundColor: const Color(0xFFB71C1C),
         centerTitle: true,
-        elevation: 0,
+        elevation: 2,
+        leading: const Icon(Icons.menu, color: Colors.white),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search, color: Colors.white),
+            onPressed: () {},
+          )
+        ],
       ),
       body: ListView.builder(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         itemCount: categories.length,
         itemBuilder: (context, index) {
-          final category = categories[index];
-          final categoryChannels = channels.where((c) => c.category == category).toList();
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // عنوان القسم (مثل: قنوات ليبيا)
-              Padding(
-                padding: const EdgeInsets.all(12.0),
+          final item = categories[index];
+          return Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            height: 65,
+            decoration: BoxDecoration(
+              color: item['color'],
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                )
+              ],
+            ),
+            child: InkWell(
+              onTap: () {
+                // هنا حنربط الانتقال لشبكة القنوات المرة الجاية
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('فتح باقة: ${item['title']}')),
+                );
+              },
+              child: Center(
                 child: Text(
-                  category,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.amber),
+                  item['title'],
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color(0xFFB71C1C), // نص أحمر داكن متناسق
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'sans-serif',
+                  ),
                 ),
               ),
-              // قائمة القنوات الخاصة بهذا القسم بشكل أفقي أو شبكي
-              SizedBox(
-                height: 140,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: categoryChannels.length,
-                  itemBuilder: (context, cIndex) {
-                    final channel = categoryChannels[cIndex];
-                    return Container(
-                      width: 120,
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1E1E1E),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.play_circle_fill, size: 40, color: Colors.red),
-                          const SizedBox(height: 8),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                            child: Text(
-                              channel.name,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const Divider(color: Colors.grey, thickness: 0.2),
-            ],
+            ),
           );
         },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color(0xFFB71C1C),
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
+        currentIndex: 0,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.tv), label: 'LIVE TV'),
+          BottomNavigationBarItem(icon: Icon(Icons.event), label: 'LIVE EVENT'),
+        ],
       ),
     );
   }
