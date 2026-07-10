@@ -54,14 +54,16 @@ class HomeView extends StatelessWidget {
                 )
               ],
             ),
-            child: InkWell(
-              onTap: () {
-                // هنا حنربط الانتقال لشبكة القنوات المرة الجاية
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('فتح باقة: ${item['title']}')),
-                );
-              },
-              child: Center(
+                    child: InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LiveTvScreen(),
+          ),
+        );
+      },
+      child: Center،(
                 child: Text(
                   item['title'],
                   textAlign: TextAlign.center,
