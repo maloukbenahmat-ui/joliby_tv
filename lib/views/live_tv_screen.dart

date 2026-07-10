@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'live_tv_screen.dart';
 
 
 class LiveTvScreen extends StatelessWidget {
