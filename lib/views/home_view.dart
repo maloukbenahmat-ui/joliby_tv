@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../live_tv_screen.dart'; // الاستدعاء الصحيح 
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -117,6 +118,7 @@ class HomeView extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             _buildLiveMatchCard(
+              context,
               'آرسنال',
               'ليفربول',
               '1 - 2',
@@ -127,6 +129,7 @@ class HomeView extends StatelessWidget {
               'LIV',
             ),
             _buildLiveMatchCard(
+              context,
               'إنتر ميلان',
               'يوفنتوس',
               '0 - 0',
@@ -260,6 +263,7 @@ class HomeView extends StatelessWidget {
   }
 
   Widget _buildLiveMatchCard(
+    BuildContext context,
     String team1,
     String team2,
     String score,
@@ -269,92 +273,99 @@ class HomeView extends StatelessWidget {
     String badge1,
     String badge2,
   ) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF2A2A2A)),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    _buildTeamBadge(badge1, color1),
-                    const SizedBox(width: 8),
-                    Text(
-                      team1,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 28, top: 2, bottom: 2),
-                  child: Text(
-                    'vs',
-                    style: TextStyle(color: Colors.grey, fontSize: 11),
-                  ),
-                ),
-                Row(
-                  children: [
-                    _buildTeamBadge(badge2, color2),
-                    const SizedBox(width: 8),
-                    Text(
-                      team2,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Column(
-            children: [
-              Text(
-                score,
-                style: const TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Row(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LiveTvScreen()),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          border: Border.all(color: const Color(0xFF2A2A2A)),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 6,
-                    height: 6,
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(3),
+                  Row(
+                    children: [
+                      _buildTeamBadge(badge1, color1),
+                      const SizedBox(width: 8),
+                      Text(
+                        team1,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 28, top: 2, bottom: 2),
+                    child: Text(
+                      'vs',
+                      style: TextStyle(color: Colors.grey, fontSize: 11),
                     ),
                   ),
-                  const SizedBox(width: 4),
-                  Text(
-                    'د $minute',
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 11,
-                    ),
+                  Row(
+                    children: [
+                      _buildTeamBadge(badge2, color2),
+                      const SizedBox(width: 8),
+                      Text(
+                        team2,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              const SizedBox(height: 6),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xFF2A2A2A)),
-                  borderRadius: BorderRadius.circular(6),
+            ),
+            Column(
+              children: [
+                Text(
+                  score,
+                  style: const TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Container(
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      'د $minute',
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: const Color(0xFF2A2A2A)),
+                    borderRadius: BorderRadius.circular(6),
                 ),
                 child: const Text(
                   'شاهد',
@@ -365,8 +376,9 @@ class HomeView extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildTeamBadge(String text, Color color) {
     return Container(
