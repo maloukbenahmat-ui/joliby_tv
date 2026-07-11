@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../live_tv_screen.dart'; // الاستدعاء الصحيح 
+import 'live_tv_screen.dart'; // الاستدعاء الصحيح 
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
