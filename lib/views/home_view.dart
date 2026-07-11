@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'live_tv_screen.dart'; // استدعاء الشاشة الجديدة بالنظيف
+import 'live_tv_screen.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -24,14 +24,16 @@ class HomeView extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFD32F2F),
               ),
-              onChanged: null,
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const LiveTvScreen()),
+                  MaterialPageRoute(builder: (context) => LiveTvScreen()),
                 );
               },
-              child: const Text('الانتقال للبث المباشر', style: TextStyle(color: Colors.white)),
+              child: const Text(
+                'Anstgai',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
