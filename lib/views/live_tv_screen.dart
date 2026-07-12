@@ -15,20 +15,20 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
   @override
   void initState() {
     super.initState();
-    // 🔗 رابط بث مباشر تجريبي حقيقي ومستقر يعمل عبر الإنترنت
+    // هنا حطينا رابط فيديو تجريبي يشتغل عبر الإنترنت كبث حقيقي
     _controller = VideoPlayerController.networkUrl(
       Uri.parse('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'),
     )..initialize().then((_) {
         setState(() {
           _isInitialized = true;
         });
-        _controller.play(); // تشغيل تلقائي أول ما يفتح الشاشة
+        _controller.play(); // يشتغل تلقائي أول ما تفتح القناة
       });
   }
 
   @override
   void dispose() {
-    _controller.dispose(); // إغلاق المشغل عند الخروج للحفاظ على الذاكرة
+    _controller.dispose(); // إغلاق المشغل عند الخروج للحفاظ على التليفون
     super.dispose();
   }
 
@@ -44,46 +44,24 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
-          'بث مباشر تجريبي HD',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          'البث المباشر HD',
+          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
       body: Column(
         children: [
-          // 📺 مشغل البث الحي الحقيقي
+          // مشغل الفيديو الحقيقي
           AspectRatio(
             aspectRatio: 16 / 9,
             child: Container(
               color: Colors.black,
               child: _isInitialized
-                  ? Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        VideoPlayer(_controller),
-                        // شريط التحكم السفلي
-                        _buildControls(),
-                      ],
-                    )
+                  ? VideoPlayer(_controller)
                   : const Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircularProgressIndicator(color: Colors.green),
-                          SizedBox(height: 12),
-                          Text(
-                            'جاري الاتصال بالبث الحي...',
-                            style: TextStyle(color: Colors.white70, fontSize: 13),
-                          ),
-                        ],
-                      ),
+                      child: CircularProgressIndicator(color: Colors.green),
                     ),
             ),
           ),
-          
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
@@ -100,54 +78,13 @@ class _LiveTvScreenState extends State<LiveTvScreen> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                const Expanded(
-                  child: Text(
-                    'قناة الرياضية الليبية - بث تجريبي',
-                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
+                const Text(
+                  'قناة الرياضية - بث تجريبي',
+                  style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
           ),
-          const Divider(color: Color(0xFF2A2A2A)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildControls() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      color: Colors.black45,
-      child: Row(
-        children: [
-          IconButton(
-            icon: Icon(
-              _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              setState(() {
-                _controller.value.isPlaying ? _controller.pause() : _controller.play();
-              });
-            },
-          ),
-          const SizedBox(width: 12),
-          const Icon(Icons.volume_up, color: Colors.white),
-          const Spacer(),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white30),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: const Text(
-              '720p',
-              style: TextStyle(color: Colors.white, fontSize: 10),
-            ),
-          ),
-          const SizedBox(width: 8),
-          const Icon(Icons.fullscreen, color: Colors.white),
         ],
       ),
     );
