@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'views/splash_view.dart';
+import 'views/splash_view.dart'; // يستدعي شاشة الـ Splash أول ما يفتح
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Jo Liby TV',
+      title: 'جو-ليبي TV',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.red,
-        scaffoldBackgroundColor: const Color(0xFFD32F2F),
+        primarySwatch: Colors.green,
+        scaffoldBackgroundColor: const Color(0xFF0F0F0F),
       ),
-      home: const SplashView(), // البداية من شاشة الترحيب
+      home: const SplashView(), // هنا يفتح شاشة الـ Splash أول شيء توماتيك
     );
   }
 }
