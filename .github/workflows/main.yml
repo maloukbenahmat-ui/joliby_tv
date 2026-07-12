@@ -36,6 +36,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: joliby-tv-release-apk
-        path: build/app/outputs/flutter-apk/app-release-apk
+        path: build/app/outputs/flutter-apk/*.apk
+
 
         
